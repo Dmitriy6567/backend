@@ -19,9 +19,9 @@ function createTask(req, res) {
 function updateTask(req, res) {
   const { uuid } = req.params;
 
-  arrMass.tasks.findIndex((item) => {
+  arrMass.tasks.map((item) => {
     if (item.uuid === uuid) {
-      if (item.name !== req.body.name) {
+      if (req.body.name) {
         item.name = req.body.name;
       }
       if (item.done !== req.body.done) {
@@ -41,26 +41,26 @@ function deleteTask(req, res) {
 }
 
 function getTasks(req, res) {
-  const { filter, sort, page, limit } = req.query;
-  res.send(`Запрос получен`);
-  console.log(filter, sort, page, limit);
-  if (sort === "new") {
-    if(filter==='all'){
-      console.log([...arrMass.tasks].reverse())
-    } else if (filter==='done'){
-      console.log(arrMass.tasks.reverse().filter(item=>item.done===true))
-    } else if (filter==='undone'){
-      console.log(arrMass.tasks.reverse().filter(item=>item.done===false))
-    }
-  } else if (sort === "old") {
-    if (filter === "all") {
-      console.log(arrMass.tasks);
-    } else if (filter === "done") {
-      console.log(arrMass.tasks.filter(item=>item.done===true))
-    } else if (filter === "undone") {
-      console.log(arrMass.tasks.filter(item=>item.done===false))
-    }
+  const { filter, sort, page } = req.query;
+
+  let reverseAndFilter = () => {
+    let arr = [...arrMass.tasks].filter(item => {
+      switch(filter){
+        case "all":
+          return true
+        case 'done':
+         return item.done===true
+        case 'undone':
+         return  item.done===false
+      }
+    })
+    return (sort==='new' && arr.reverse() || sort==='old' && arr)
   }
+  const countPage = reverseAndFilter().length
+  const result = reverseAndFilter().slice((page-1)*5,page*5)
+  
+  res.json({result,countPage})
+
 }
 
 export default { createTask, updateTask, deleteTask, getTasks };
