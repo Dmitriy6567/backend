@@ -1,15 +1,27 @@
 import express from "express";
-import taskController from "../controllers/taskController.js";
+import GetTaskController from "../controllers/GetTaskController.js";
+import CreateTaskController from "../controllers/CreateTaskController.js";
+import UpdateTaskController from "../controllers/UpdateTaskController.js";
+import DeleteTaskContoller from "../controllers/DeleteTaskContoller.js";
+import DeleteAllTaskController from "../controllers/DeleteAllTaskController.js";
+import DeleteDoneTaskController from "../controllers/DeleteDoneTaskController.js";
+import DeleteUndoneTaskController from "../controllers/DeleteUndoneTaskController.js";
 
 const router = express.Router();
 
-router.post("/", taskController.createTask);
+router.post("/", CreateTaskController.createTask);
 
-router.patch("/:uuid",taskController.updateTask)
+router.patch("/:uuid",UpdateTaskController.updateTask)
 
-router.delete("/:uuid", taskController.deleteTask)
+router.delete("/:uuid", DeleteTaskContoller.deleteTask)
 
-router.get("/", taskController.getTasks)
+router.post("/deleteAll", DeleteAllTaskController.deleteAllTask)
+
+router.post("/deleteDone", DeleteDoneTaskController.deleteDoneTask)
+
+router.post("/deleteUndone", DeleteUndoneTaskController.deleteUndoneTask)
+
+router.get("/", GetTaskController.getTasks)
 
 
 export default router
