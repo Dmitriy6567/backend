@@ -5,7 +5,7 @@ import apiError from '../error/apiError.js'
 async function getTasks(req, res) {
   try{
     const { filter, sort, page } = req.query;
-    const tasks = await fs.readFile("../Tasks/Tasks.json");
+    const tasks = await fs.readFile("Tasks.json");
     const tasksList = JSON.parse(tasks);
     let reverseAndFilter  =  () => {
     let resultTasksList = [...tasksList.tasks].filter(item => {

@@ -4,7 +4,7 @@ import apiError from '../error/apiError.js'
 async function updateTask(req, res,next) {
   try{
     const { uuid } = req.params;
-    const tasks = await fs.readFile("../Tasks/Tasks.json");
+    const tasks = await fs.readFile("Tasks.json");
     const updateTasksList = JSON.parse(tasks);
   
     updateTasksList.tasks.map((item) => {
@@ -20,7 +20,7 @@ async function updateTask(req, res,next) {
         }
       }
     });
-    await fs.writeFile("../Tasks/Tasks.json", `${JSON.stringify(updateTasksList,null,2)}`);
+    await fs.writeFile("Tasks.json", `${JSON.stringify(updateTasksList,null,2)}`);
     res.status(204).json("Успешно отредактировано");
   } catch(error){
     next(error);
