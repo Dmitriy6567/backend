@@ -1,16 +1,27 @@
 import crypto from "crypto";
 import fs from "fs/promises";
+import apiError from '../error/apiError.js'
 
-async function createTask(req, res) {
+async function createTask(req, res, next) {
+  try {
     const tasks = await fs.readFile("../Tasks/Tasks.json");
     const tasksList = JSON.parse(tasks);
-    console.log(tasksList)
-    // console.log(req.body.name)
+
+    if (tasksList.tasks.some((task) => task.name === req.body.name)) {
+      throw new apiError.MyError(422,"This task is already exist")
+    }
+
     req.body.uuid = crypto.randomBytes(16).toString("hex");
     req.body.createdAt = new Date();
     tasksList.tasks.push(req.body);
-    await fs.writeFile("../Tasks/Tasks.json", `${JSON.stringify(tasksList, null, 2)}`);
-    res.status(202).json("Успешно");
+    await fs.writeFile(
+      "../Tasks/Tasks.json",
+      `${JSON.stringify(tasksList, null, 2)}`
+    );
+    res.status(202).json("Задача успешно добавлена");
+  } catch (error) {
+    next(error);
   }
+}
 
-  export default {createTask}
+export default { createTask };

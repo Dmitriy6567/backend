@@ -1,4 +1,6 @@
 import fs from "fs/promises";
+import { nextTick } from "process";
+import apiError from '../error/apiError.js'
 
 async function getTasks(req, res) {
   try{
@@ -20,11 +22,10 @@ async function getTasks(req, res) {
     }
     const countPage = reverseAndFilter().length
     const result = reverseAndFilter().slice((page-1)*5,page*5)
-    
     res.json({result,countPage})
   }
-  catch(err){
-    console.log('Ошибка гета запроса',err)
+  catch(error){
+    console.log(error)
   }
 
 }
