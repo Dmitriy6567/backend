@@ -1,5 +1,5 @@
-import fs from "fs/promises";
-import apiError from '../error/apiError.js'
+const fs = require("fs/promises")
+const Error = require("../error/apiError")
 
 async function updateTask(req, res,next) {
   try{
@@ -11,7 +11,7 @@ async function updateTask(req, res,next) {
       if (item.uuid === uuid) {
         if (req.body.name) {
           if (updateTasksList.tasks.some((task) => task.name === req.body.name)) {
-            throw new apiError.MyError(415,"Error editing, this task is already exist")
+            throw new Error(415,"Error editing, this task is already exist")
           }
             item.name = req.body.name;
         }
@@ -27,4 +27,4 @@ async function updateTask(req, res,next) {
   }
   }
 
-  export default {updateTask}
+  module.exports = updateTask

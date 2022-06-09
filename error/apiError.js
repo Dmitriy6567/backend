@@ -1,8 +1,8 @@
-import express from "express";
-
-function MyError(status,message) {
-    this.message = message;
-    this.status = status
+function Error(status,message) {
+    return {
+      message,
+      status
+    }
   }
 
-export default {MyError}
+module.exports = Error

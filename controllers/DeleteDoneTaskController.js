@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+const fs = require("fs/promises")
 
 async function deleteDoneTask (req,res) {
     const tasks = await fs.readFile("Tasks.json", "utf-8"); 
@@ -8,4 +8,4 @@ async function deleteDoneTask (req,res) {
     res.status(206).json("Успешно Удалено");
   }
 
-  export default {deleteDoneTask}
+module.exports = deleteDoneTask
