@@ -2,14 +2,11 @@ import express from "express";
 import router from "./routes/taskRoute.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import db from './db/connect.js'
-import models from './db/Model.js'
+
 dotenv.config();
 
 const CORS = cors();
 const app = express();
-const connect = db
-const model = models
 app.use(express.json());
 app.use(CORS);
 const PORT = process.env.PORT || 3002;
@@ -22,7 +19,7 @@ app.use(function (err, req, res, next) {
       message: err.message,
       code:err.status
     },
-  });
+  }); 
 });
 
 // database: 'todolist';
