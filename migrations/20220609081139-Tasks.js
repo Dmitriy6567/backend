@@ -2,37 +2,33 @@
 
  module.exports = {async up(queryInterface, Sequelize) {
 
-  //  * Add altering commands here.
-  //  *
-  //  * Example:
   return queryInterface.createTable('tasks', { 
-    uuid: 
-    { type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true 
+    uuid: { 
+    type: Sequelize.UUID,
+    autoIncrement: false,
+    primaryKey: true ,
+    defaultValue: Sequelize.UUIDV$
   },
-  task: {
+  name: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
   },
   createdAt: {
-    type: Sequelize.STRING,
+    type: Sequelize.DATE,
+    allowNull: false
+  },
+  updatedAt:{
+    type: Sequelize.DATE,
     allowNull: false
   },
   done: {
     type: Sequelize.BOOLEAN
   }
   });
-
 },
 
  async down(queryInterface, Sequelize) {
-  /**
-   * Add reverting commands here.
-   *
-   * Example:
-   * await queryInterface.dropTable('users');
-   */
+  return queryInterface.dropTable('tasks')
 }
 }

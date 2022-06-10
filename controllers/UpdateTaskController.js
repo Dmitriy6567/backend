@@ -12,7 +12,10 @@ async function updateTask(req, res,next) {
         if (req.body.name) {
           if (updateTasksList.tasks.some((task) => task.name === req.body.name)) {
             throw new Error(415,"Error editing, this task is already exist")
-          }
+          } 
+          // if (req.body.name===''){
+          //   throw new Error(416,"Error editing, can't save empty task")
+          // }
             item.name = req.body.name;
         }
         if (req.body.done!==undefined) {

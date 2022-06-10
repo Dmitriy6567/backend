@@ -1,6 +1,9 @@
 const fs = require("fs/promises")
 const crypto = require("crypto")
-const Error = require("../error/apiError")
+const Error = require("../error/apiError");
+const Sequelize = require('sequelize')
+const sequelize = require('../models/index').sequelize
+const Tasks = require('../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
 
 async function createTask(req, res, next) {
   try {
@@ -18,10 +21,15 @@ async function createTask(req, res, next) {
       "Tasks.json",
       `${JSON.stringify(tasksList, null, 2)}`
     );
+    // const {name} = req.body
+    // console.log(name)
+    // const tasks = await Tasks.create({
+    //   name:name
+    // })
 
-    res.status(202).json("Задача успешно добавлена");
-  } catch (error) {
-    next(error);
+    // res.status(204).json(tasks);
+  } catch (err) {
+    next(err);
   }
 }
 
