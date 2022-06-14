@@ -1,7 +1,9 @@
 const fs = require("fs/promises")
 const Sequelize = require('sequelize')
-const sequelize = require('../models/index').sequelize
-const Tasks = require('../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
+const sequelize = require('../../models/index').sequelize
+const Tasks = require('../../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
+const Router = require("express");
+const router = new Router()
 
 async function deleteTask(req, res) {
     const tasks = await fs.readFile("../Tasks/Tasks.json", "utf-8");
@@ -13,4 +15,5 @@ async function deleteTask(req, res) {
     res.status(206).json("Успешно Удалено");
   }
 
-module.exports = deleteTask
+router.delete("/postTask/:uuid",deleteTask)
+module.exports = router

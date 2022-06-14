@@ -1,12 +1,13 @@
 const fs = require("fs/promises");
 const Sequelize = require('sequelize')
-const sequelize = require('../models/index').sequelize
-const Tasks = require('../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
-
+const sequelize = require('../../models/index').sequelize
+const Tasks = require('../../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
+const Router = require("express");
+const router = new Router()
 async function getTasks(req, res, next) {
   try {
     const { filter, sort, page } = req.query;
-    const tasks = await fs.readFile("Tasks.json");
+    const tasks = await fs.readFile("../Tasks/Tasks.json");
      const tasksList = JSON.parse(tasks)
 
     // const model = await Tasks.findAndCountAll({limit: 5, offset: page})
@@ -38,5 +39,5 @@ async function getTasks(req, res, next) {
     next(err);
   }
 }
-
-module.exports =  getTasks ;
+router.get("/postTask", getTasks)
+module.exports =  router ;

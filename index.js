@@ -1,13 +1,15 @@
 const express = require("express")
-const router = require("./routes/taskRoute.js")
 const cors = require("cors")
-
+const recursive = require('recursive-readdir-sync')
 const app = express();
 app.use(express.json());
 app.use(cors());
 const PORT = process.env.PORT || 3002;
 
-app.use("/postTask", router)
+recursive(`${__dirname}/routes`).forEach(async (file) => {
+  const router = await import(file)
+  app.use('/',router.default)
+});
 
 app.use(function (err, req, res, next) {
   res.status(err.status).send({

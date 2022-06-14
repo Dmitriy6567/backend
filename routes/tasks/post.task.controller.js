@@ -1,9 +1,11 @@
 const fs = require("fs/promises")
 const crypto = require("crypto")
-const Error = require("../error/apiError");
+const Error = require("../../error/apiError");
 const Sequelize = require('sequelize')
-const sequelize = require('../models/index').sequelize
-const Tasks = require('../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
+const sequelize = require('../../models/index').sequelize
+const Tasks = require('../../models/tasks')(sequelize, Sequelize.DataTypes, Sequelize.Model)
+const Router = require("express");
+const router = new Router()
 
 async function createTask(req, res, next) {
   try {
@@ -33,4 +35,6 @@ async function createTask(req, res, next) {
   }
 }
 
-module.exports = createTask
+router.post("/postTask", createTask);
+
+module.exports = router

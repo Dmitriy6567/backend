@@ -1,4 +1,6 @@
 const fs = require("fs/promises")
+const Router = require("express");
+const router = new Router()
 
 async function deleteAllTask (req,res) {
     const { del } = req.query;
@@ -18,5 +20,5 @@ async function deleteAllTask (req,res) {
     await fs.writeFile("../Tasks/Tasks.json", `${JSON.stringify(emptyTasksList)}`);
     res.status(206).json("Успешно Удалено");
   }
-
-  module.exports = deleteAllTask
+  router.delete("/postTask",deleteAllTask)
+  module.exports = router

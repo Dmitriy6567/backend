@@ -1,5 +1,7 @@
 const fs = require("fs/promises")
-const Error = require("../error/apiError")
+const Error = require("../../error/apiError")
+const Router = require("express");
+const router = new Router()
 
 async function updateTask(req, res,next) {
   try{
@@ -29,5 +31,5 @@ async function updateTask(req, res,next) {
     next(error);
   }
   }
-
-  module.exports = updateTask
+  router.patch("/postTask/:uuid", updateTask)
+  module.exports = router
